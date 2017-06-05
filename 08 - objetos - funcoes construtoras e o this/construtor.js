@@ -42,7 +42,7 @@ console.log(m.valor)
 
 
 
-
+// versão JSON
 // var Dado = function (faces = 6) {
 //   return {
 //     'valor': 1,
