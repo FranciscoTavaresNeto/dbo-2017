@@ -11,15 +11,13 @@ const divReprovados = document.querySelector('div.reprovados');
 // getter cria uma propriedade calculada!
 const Notas = {
   notas: [],
-  // duas classes de notas
-  get aprovados() {
-    // let n = 0;
-    // for (let nota of this.notas) if (nota >= 7) n++;
-    // return n;
-    return this.notas.filter((n) => n >= 7).length;
-  },
-  get reprovados() {
-    return this.notas.length - this.aprovados;
+  classes: [],
+  inicializa: function() {
+    var de0a2 = new Classe("de 0 a 2", 0, 2);
+    var de2a4 = new Classe("de 2 a 4", de0a2, 4);
+    var de4a6 = new Classe("de 4 a 6", de2a4, 6);
+    var de6a8 = new Classe("de 6 a 8", de4a6, 8);
+    var de8a10 = new Classe("de 8 a 10", de6a8, 10);
   },
   // fim classes
   get mediana() {
@@ -55,12 +53,12 @@ const Notas = {
 
     if (this.aprovados > this.reprovados) {
       divAprovados.style.width = '100%';
-      let p = this.reprovados / this.aprovados * 100;
+      const p = this.reprovados / this.aprovados * 100;
       divReprovados.style.width = `${p}%`;
       // string interpolada
     } else {
       divReprovados.style.width = '100%';
-      let p = this.aprovados / this.reprovados * 100;
+      const p = this.aprovados / this.reprovados * 100;
       divAprovados.style.width = `${p}%`;
     }
   },
@@ -124,9 +122,26 @@ let subtrai = function(a, b) { return a - b; };
 let multiplica = (a, b) => a * b;
 console.log(multiplica(2, 8));
 
+function Classe(nome, de, ate) { //
 
+  this.nome = nome;
+  this.de = de;
+  this.ate = ate;
+  this.contagem = 0;
 
+  this.conta = function(n) {
+    if (this.verifica(n)) this.contagem++;
+  }
 
+  this.verifica = function(n) {
+    if (this.de instanceof Classe) {
+      // início aberto
+      return n > this.de.ate && n <= this.ate;
+    }
+    // intervalo fechado
+    return n >= this.de && n <= this.ate;
+  }
+}
 
 
 
