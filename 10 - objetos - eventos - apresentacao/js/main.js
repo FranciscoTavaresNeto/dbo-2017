@@ -45,7 +45,7 @@ const Notas = {
     for (let c of this.classes) {
       c.zerar();
       for (let n of this.notas) c.conta(n);
-      if (c.contagem > escala) escala = contagem;
+      if (c.contagem > escala) escala = c.contagem;
     }
     for (let c of this.classes) c.desenha(escala);
 
