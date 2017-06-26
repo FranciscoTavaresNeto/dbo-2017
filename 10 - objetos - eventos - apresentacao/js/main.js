@@ -5,19 +5,12 @@ const divMenor = document.querySelector('div.menor');
 const divMaior = document.querySelector('div.maior');
 const divAmplitude = document.querySelector('div.amplitude');
 const divMediana = document.querySelector('div.mediana');
+const divBarras = document.querySelector('div.barras');
 
 // getter cria uma propriedade calculada!
 const Notas = {
   notas: [],
   classes: [],
-  inicializa: function() {
-    var de0a2 = new Classe("de 0 a 2", 0, 2);
-    var de2a4 = new Classe("de 2 a 4", de0a2, 4);
-    var de4a6 = new Classe("de 4 a 6", de2a4, 6);
-    var de6a8 = new Classe("de 6 a 8", de4a6, 8);
-    var de8a10 = new Classe("de 8 a 10", de6a8, 10);
-    this.classes = [de0a2, de2a4, de4a6, de6a8, de8a10];
-  },
   // fim classes
   get mediana() {
     return mediana(this.notas);
@@ -48,6 +41,14 @@ const Notas = {
     divAmplitude.textContent = this.amplitude;
     divMediana.textContent = this.mediana;
 
+    let escala = 0;
+    for (let c of this.classes) {
+      c.zerar();
+      for (let n of this.notas) c.conta(n);
+      if (c.contagem > escala) escala = contagem;
+    }
+    for (let c of this.classes) c.desenha(escala);
+
   },
   adiciona: function (nota) {
     let n = parseFloat(nota);
@@ -59,7 +60,14 @@ const Notas = {
       this.atualizaView();
     }
   }
-};
+}; // fim Notas
+
+var de0a2 = new Classe("de 0 a 2", 0, 2);
+var de2a4 = new Classe("de 2 a 4", de0a2, 4);
+var de4a6 = new Classe("de 4 a 6", de2a4, 6);
+var de6a8 = new Classe("de 6 a 8", de4a6, 8);
+var de8a10 = new Classe("de 8 a 10", de6a8, 10);
+Notas.classes = [de0a2, de2a4, de4a6, de6a8, de8a10];
 
 // eventos // callback
 const form = document.querySelector('form');
@@ -115,6 +123,22 @@ function Classe(nome, de, ate) { //
   this.de = de;
   this.ate = ate;
   this.contagem = 0;
+
+  var label = document.createElement('label');
+  label.textContent = this.nome;
+  divBarras.appendChild(label);
+
+  this.div = document.createElement('div');
+  // this.div.className = 'barra';
+  this.div.classList.add('barra');
+  this.div.textContent = '0';
+  divBarras.appendChild(this.div);
+
+  this.desenha = function (escala) {
+    let tamanho = this.contagem / escala * 100;
+    this.div.style.width = `${tamanho}%`;
+    this.div.textContent = this.contagem;
+  }
 
   this.zerar = function () {
     this.contagem = 0;
