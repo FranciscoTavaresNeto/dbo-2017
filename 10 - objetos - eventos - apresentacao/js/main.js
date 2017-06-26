@@ -5,8 +5,6 @@ const divMenor = document.querySelector('div.menor');
 const divMaior = document.querySelector('div.maior');
 const divAmplitude = document.querySelector('div.amplitude');
 const divMediana = document.querySelector('div.mediana');
-const divAprovados = document.querySelector('div.aprovados');
-const divReprovados = document.querySelector('div.reprovados');
 
 // getter cria uma propriedade calculada!
 const Notas = {
@@ -18,6 +16,7 @@ const Notas = {
     var de4a6 = new Classe("de 4 a 6", de2a4, 6);
     var de6a8 = new Classe("de 6 a 8", de4a6, 8);
     var de8a10 = new Classe("de 8 a 10", de6a8, 10);
+    this.classes = [de0a2, de2a4, de4a6, de6a8, de8a10];
   },
   // fim classes
   get mediana() {
@@ -48,19 +47,7 @@ const Notas = {
     divMaior.textContent = this.maior;
     divAmplitude.textContent = this.amplitude;
     divMediana.textContent = this.mediana;
-    divAprovados.textContent = this.aprovados;
-    divReprovados.textContent = this.reprovados;
 
-    if (this.aprovados > this.reprovados) {
-      divAprovados.style.width = '100%';
-      const p = this.reprovados / this.aprovados * 100;
-      divReprovados.style.width = `${p}%`;
-      // string interpolada
-    } else {
-      divReprovados.style.width = '100%';
-      const p = this.aprovados / this.reprovados * 100;
-      divAprovados.style.width = `${p}%`;
-    }
   },
   adiciona: function (nota) {
     let n = parseFloat(nota);
@@ -128,6 +115,10 @@ function Classe(nome, de, ate) { //
   this.de = de;
   this.ate = ate;
   this.contagem = 0;
+
+  this.zerar = function () {
+    this.contagem = 0;
+  }
 
   this.conta = function(n) {
     if (this.verifica(n)) this.contagem++;
