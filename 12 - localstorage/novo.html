@@ -43,13 +43,20 @@
     </nav>
 
     <div class="container">
+
+      <div class="hidden alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Sucesso!</strong> A atividade foi salva corretamente.
+      </div>
+
       <form>
         <div class="form-group">
           <label for="disciplina">Disciplina</label>
           <input type="text" class="form-control"
                  list="disciplinas"
                  id="disciplina" name="disciplina"
-                 placeholder="Nome da Disciplina">
+                 placeholder="Nome da Disciplina"
+                 required> <!-- pattern="[a-zA-Z]{5,20}" REGEX -->
           <datalist id="disciplinas">
             <option value="Desenvolvimento Baseado em Objetos"/>
             <option value="Matemática II"/>
@@ -60,7 +67,7 @@
         <div class="form-group">
           <label for="data">Data</label>
           <input type="date" class="form-control"
-                 id="data" name="data"
+                 id="data" name="data" required
                  placeholder="Data">
         </div>
         <div class="form-group">
@@ -77,17 +84,26 @@
 
     <script>
       const form = document.querySelector('form');
+      const success = document.querySelector('div.alert-success');
       // TODO verificar se já existem disciplinas
       // antes de inicializar o vetor
-      const disciplinas = [];
       form.addEventListener('submit', function (e) {
+
+        let disciplinas = [];
+        if (sessionStorage['disciplinas']) {
+          disciplinas = JSON.parse(sessionStorage['disciplinas']);
+        }
+
         disciplinas.push({
           disciplina: form.disciplina.value,
           data: form.data.value,
           conteudo: form.conteudo.value
         });
+
         sessionStorage['disciplinas'] = JSON.stringify(disciplinas);
         form.reset();
+        success.classList.remove('hidden');
+
         e.preventDefault();
       });
     </script>

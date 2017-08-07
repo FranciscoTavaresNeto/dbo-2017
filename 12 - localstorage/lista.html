@@ -45,18 +45,53 @@
     <div class="container">
       <h2>Calendário de provas/trabalhos</h2>
 
-      <script>
-        document.write(sessionStorage['disciplinas']);
-      </script>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Disciplina</th>
+            <th>Data</th>
+            <th>Conteúdo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="3">Nenhum registro encontrado</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- jQuery (necessary for Boottrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <!-- handlebars -->
+    <script src="js/handlebars.js"></script>
+
+    <script id="source" type="text/x-handlebars-template">
+      {{#disciplinas}}
+        <tr>
+          <td>{{disciplina}}</td>
+          <td>{{data}}</td>
+          <td>{{conteudo}}</td>
+        </tr>
+      {{/disciplinas}}
+    </script>
+
+    <script>
+      if (sessionStorage['disciplinas']) {
+        var source   = document.querySelector("#source").innerHTML;
+        var template = Handlebars.compile(source);
+        var html = template({
+          disciplinas: JSON.parse(sessionStorage['disciplinas'])
+        });
+        document.querySelector('tbody').innerHTML = html;
+      }
+    </script>
+
+
+
+
   </body>
-
-
-
 
 </html>
