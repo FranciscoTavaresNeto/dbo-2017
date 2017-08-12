@@ -44,10 +44,7 @@
 
     <div class="container">
 
-      <div class="hidden alert alert-success alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>Sucesso!</strong> A atividade foi salva corretamente.
-      </div>
+      <div class="mensagem"></div>
 
       <form>
         <div class="form-group">
@@ -82,37 +79,48 @@
       </form>
     </div>
 
+    <!-- jQuery (necessary for Boottrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- handlebars -->
+    <script src="js/handlebars.js"></script>
+    <script src="js/persistencia.js"></script>
+
+    <script id="sucesso" type="text/x-handlebars-template">
+      <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Sucesso!</strong> {{mensagem}}
+      </div>
+    </script>
+
     <script>
       const form = document.querySelector('form');
-      const success = document.querySelector('div.alert-success');
-      // TODO verificar se já existem disciplinas
-      // antes de inicializar o vetor
       form.addEventListener('submit', function (e) {
 
-        let disciplinas = [];
-        if (sessionStorage['disciplinas']) {
-          disciplinas = JSON.parse(sessionStorage['disciplinas']);
-        }
-
-        disciplinas.push({
+        Persistencia.adiciona('disciplinas', {
           disciplina: form.disciplina.value,
           data: form.data.value,
           conteudo: form.conteudo.value
         });
 
-        sessionStorage['disciplinas'] = JSON.stringify(disciplinas);
         form.reset();
-        success.classList.remove('hidden');
+        sucesso("A atividade foi salva corretamente.");
 
         e.preventDefault();
       });
+
+      function sucesso(mensagem) {
+        var source   = document.querySelector("#sucesso").innerHTML;
+        var template = Handlebars.compile(source);
+        var html = template({ mensagem: mensagem });
+        document.querySelector('div.mensagem').innerHTML = html;
+      }
     </script>
 
 
-    <!-- jQuery (necessary for Boottrap's JavaScript plugins) -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+
+
   </body>
 
 

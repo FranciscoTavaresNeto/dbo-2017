@@ -67,6 +67,7 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- handlebars -->
     <script src="js/handlebars.js"></script>
+    <script src="js/persistencia.js"></script>
 
     <script id="source" type="text/x-handlebars-template">
       {{#disciplinas}}
@@ -79,17 +80,15 @@
     </script>
 
     <script>
-      if (sessionStorage['disciplinas']) {
+      if (Persistencia.existe('disciplinas')) {
         var source   = document.querySelector("#source").innerHTML;
         var template = Handlebars.compile(source);
         var html = template({
-          disciplinas: JSON.parse(sessionStorage['disciplinas'])
+          disciplinas: Persistencia.carrega('disciplinas')
         });
         document.querySelector('tbody').innerHTML = html;
       }
     </script>
-
-
 
 
   </body>
